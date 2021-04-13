@@ -3,6 +3,7 @@
  * Manage Events as admin.
  *
  * @author Samy Nastuzzi <samy@nastuzzi.fr>
+ * @author Corentin Mercier <corentin@cmercier.fr>
  *
  * @copyright Copyright (c) 2018, SiMDE-UTC
  * @license GNU GPL-3.0
@@ -17,6 +18,8 @@ use App\Models\{
 class EventController extends ResourceController
 {
     protected $model = Event::class;
+
+    protected $name = "Évènement";
 
     /**
      * Fields to display definition.
@@ -37,6 +40,25 @@ class EventController extends ResourceController
             'owned_by' => 'display',
             'created_at' => 'date',
             'updated_at' => 'date',
+        ];
+    }
+
+    /**
+     * Fields to display labels definition.
+     *
+     * @return array
+     */
+    protected function getLabels(): array
+    {
+        return [
+            'name' => 'Nom',
+            'location' => 'Lieu',
+            'visibility' => 'Visibilité',
+            'begin_at' => 'Commence le',
+            'end_at' => 'Fini le',
+            'full_day' => 'Journée entière',
+            'created_by' => 'Créé par',
+            'owned_by' => 'Possédé par',
         ];
     }
 

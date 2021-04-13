@@ -3,6 +3,7 @@
  * Manage Accesses as admin.
  *
  * @author Samy Nastuzzi <samy@nastuzzi.fr>
+ * @author Corentin Mercier <corentin@cmercier.fr>
  *
  * @copyright Copyright (c) 2018, SiMDE-UTC
  * @license GNU GPL-3.0
@@ -15,6 +16,8 @@ use App\Models\Access;
 class AccessController extends ResourceController
 {
     protected $model = Access::class;
+
+    protected $name = "Accès";
 
     /**
      * Fields to display definition.
@@ -31,6 +34,19 @@ class AccessController extends ResourceController
             'utc_access' => 'number',
             'created_at' => 'date',
             'updated_at' => 'date'
+        ];
+    }
+
+    /**
+     * Fields to display labels definition.
+     *
+     * @return array
+     */
+    protected function getLabels(): array
+    {
+        return [
+            'name' => 'Nom',
+            'utc_access' => 'Numéro d\'accès UTC',
         ];
     }
 }

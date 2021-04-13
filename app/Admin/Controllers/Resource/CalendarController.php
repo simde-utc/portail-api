@@ -3,6 +3,7 @@
  * Manage Calendars as admin.
  *
  * @author Samy Nastuzzi <samy@nastuzzi.fr>
+ * @author Corentin Mercier <corentin@cmercier.fr>
  *
  * @copyright Copyright (c) 2018, SiMDE-UTC
  * @license GNU GPL-3.0
@@ -17,6 +18,8 @@ use App\Models\{
 class CalendarController extends ResourceController
 {
     protected $model = Calendar::class;
+
+    protected $name = "Calendrier";
 
     /**
      * Fields to display definition.
@@ -35,6 +38,22 @@ class CalendarController extends ResourceController
             'owned_by' => 'display',
             'created_at' => 'date',
             'updated_at' => 'date'
+        ];
+    }
+
+    /**
+     * Fields to display labels definition.
+     *
+     * @return array
+     */
+    protected function getLabels(): array
+    {
+        return [
+            'name' => 'Nom',
+            'color' => 'Couleur',
+            'visibility' => 'Visibilité',
+            'created_by' => 'Créé par',
+            'owned_by' => 'Possédé par',
         ];
     }
 

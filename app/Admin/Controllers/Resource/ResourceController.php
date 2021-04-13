@@ -3,6 +3,7 @@
  * Generate a management of an admin resource.
  *
  * @author Samy Nastuzzi <samy@nastuzzi.fr>
+ * @author Corentin Mercier <corentin@cmercier.fr>
  *
  * @copyright Copyright (c) 2018, SiMDE-UTC
  * @license GNU GPL-3.0
@@ -13,9 +14,7 @@ namespace App\Admin\Controllers\Resource;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Form;
-use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
-use Encore\Admin\Show;
 use App\Admin\{
     GridGenerator, ShowGenerator, FormGenerator
 };
@@ -32,6 +31,13 @@ abstract class ResourceController extends Controller
     protected $model;
 
     /**
+     * Resource display name
+     *
+     * @var string
+     */
+    protected $name = null;
+
+    /**
      * Give access only if the user hs the right permission.
      */
     public function __construct()
@@ -45,6 +51,13 @@ abstract class ResourceController extends Controller
      * @return array
      */
     abstract protected function getFields(): array;
+
+    /**
+     * Fields to display definition.
+     *
+     * @return array
+     */
+    abstract protected function getLabels(): array;
 
     /**
      * Default values definition of the fields to display.
@@ -73,7 +86,7 @@ abstract class ResourceController extends Controller
      */
     protected function getName(): string
     {
-        return ucfirst(\ModelResolver::getName($this->model));
+        return $this->name ? $this->name : ucfirst(\ModelResolver::getName($this->model));
     }
 
     /**
@@ -86,7 +99,7 @@ abstract class ResourceController extends Controller
     {
         $grid = new GridGenerator($this->model);
 
-        $grid->addFields($this->getFields());
+        $grid->addFields($this->getFields(), $this->getLabels());
 
         return $content
             ->header($this->getName())
@@ -111,7 +124,7 @@ abstract class ResourceController extends Controller
 
         $show = new ShowGenerator($model->findOrFail($model_id));
 
-        $show->addFields(array_keys($this->getFields()));
+        $show->addFields(array_keys($this->getFields()), $this->getLabels());
 
         return $content
             ->header($this->getName())
@@ -158,7 +171,7 @@ abstract class ResourceController extends Controller
         $form = new FormGenerator($this->model);
         $defaults = $this->getDefaults();
 
-        $form->addFields($this->getFields(), $defaults);
+        $form->addFields($this->getFields(), $this->getLabels(), $defaults);
         $form->saving(function (Form $form) use ($defaults) {
             foreach ($defaults as $key => $default) {
                 $form->$key = $form->$key ?: $default;

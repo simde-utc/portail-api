@@ -3,6 +3,7 @@
  * Manage User Permissions.
  *
  * @author Samy Nastuzzi <samy@nastuzzi.fr>
+ * @author Corentin Mercier <corentin@cmercier.fr>
  *
  * @copyright Copyright (c) 2019, SiMDE-UTC
  * @license GNU GPL-3.0
@@ -64,6 +65,27 @@ class UserPermissionController extends Controller
     }
 
     /**
+     * Fields to display labels definition.
+     *
+     * @param  boolean $withAll Default:true.
+     * @return array
+     */
+    public function getLabels(bool $withAll=true)
+    {
+
+        $labels = [
+            'user' => 'Utilisateur',
+        ];
+
+        if ($withAll) {
+            $labels['validated_by'] = "Validé par";
+            $labels['semester'] = 'Semestre';
+        }
+
+        return $labels;
+    }
+
+    /**
      * Global display interface.
      *
      * @param Content $content
@@ -75,7 +97,7 @@ class UserPermissionController extends Controller
         $userPermissions = Permission::where('owned_by_type', User::class)->get();
         $grid::$simplePrint = true;
 
-        $grid->addFields($this->getFields());
+        $grid->addFields($this->getFields(), $this->getLabels());
 
         $grid->tools(function ($tools) {
             $tools->disableBatchActions();

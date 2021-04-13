@@ -3,6 +3,7 @@
  * Manage ArticleActions as admin.
  *
  * @author Samy Nastuzzi <samy@nastuzzi.fr>
+ * @author Corentin Mercier <corentin@cmercier.fr>
  *
  * @copyright Copyright (c) 2018, SiMDE-UTC
  * @license GNU GPL-3.0
@@ -17,6 +18,8 @@ use App\Models\User;
 class ArticleActionController extends ResourceController
 {
     protected $model = ArticleAction::class;
+
+    protected $name = "Actions d'articles";
 
     /**
      * Fields to display definition.
@@ -38,6 +41,20 @@ class ArticleActionController extends ResourceController
             'type' => 'display',
             'created_at' => 'date',
             'updated_at' => 'date',
+        ];
+    }
+
+    /**
+     * Fields to display labels definition.
+     *
+     * @return array
+     */
+    protected function getLabels(): array
+    {
+        return [
+            'user' => "Utilisateur",
+            'key' => 'Clé',
+            'value' => 'Valeur',
         ];
     }
 

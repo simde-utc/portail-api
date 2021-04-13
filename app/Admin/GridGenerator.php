@@ -109,12 +109,13 @@ class GridGenerator extends Generator
      * Allow to add several fields
      *
      * @param array   $fields
+     * @param array   $labels
      * @param boolean $generateFilters
      * @return Generator
      */
-    public function addFields(array $fields, bool $generateFilters=true)
+    public function addFields(array $fields, array $labels=[], bool $generateFilters=true)
     {
-        parent::addFields(array_keys($fields));
+        parent::addFields(array_keys($fields), $labels);
 
         $model = $this->generatedModel;
 

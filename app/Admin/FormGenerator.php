@@ -15,6 +15,9 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use App\Facades\ModelResolver;
+use App\Models\EventDetail;
+use App\Models\Faq;
+use App\Models\Room;
 
 class FormGenerator extends Generator
 {
@@ -50,20 +53,22 @@ class FormGenerator extends Generator
      * Allow us to add several fields
      *
      * @param array $fields
+     * @param array $labels
      * @param array $defaults
      * @return FormGenerator
      */
-    public function addFields(array $fields, array $defaults=null)
+    public function addFields(array $fields, array $labels=[], array $defaults=null)
     {
         $model = $this->model;
 
         foreach ($fields as $field => $type) {
+            $name = $this->getLabel($field, $labels);
+
             if (method_exists($this->generatedModel, $field)
                 && (($relation = $this->generatedModel->$field()) instanceof Relation)
                 && $type instanceof Collection) {
                 $options = [];
 
-                $name = ucfirst($field);
                 $field .= '_id';
                 $generatedField = $this->generated->select($field, $name);
 
@@ -74,10 +79,10 @@ class FormGenerator extends Generator
                 $generatedField->options($options);
             } else {
                 if (is_array($type)) {
-                    $generatedField = $this->generated->select($field);
+                    $generatedField = $this->generated->select($field, $name);
                     $generatedField->options($type);
                 } else {
-                    $generatedField = $this->generated->$type($field);
+                    $generatedField = $this->generated->$type($field, $name);
                     if ($type === 'image') {
                         $this->get()->submitted(function (Form $form) {
                             $form->model()->id = ($form->model()->id ?? \Uuid::generate()->string);

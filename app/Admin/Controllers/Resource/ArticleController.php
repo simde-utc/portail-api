@@ -3,6 +3,7 @@
  * Manage Articles as admin.
  *
  * @author Samy Nastuzzi <samy@nastuzzi.fr>
+ * @author Corentin Mercier <corentin@cmercier.fr>
  *
  * @copyright Copyright (c) 2018, SiMDE-UTC
  * @license GNU GPL-3.0
@@ -18,6 +19,8 @@ use App\Models\User;
 class ArticleController extends ResourceController
 {
     protected $model = Article::class;
+
+    protected $name = "Article";
 
     /**
      * Fields to display definition.
@@ -39,6 +42,23 @@ class ArticleController extends ResourceController
             'owned_by' => 'display',
             'created_at' => 'date',
             'updated_at' => 'date'
+        ];
+    }
+
+    /**
+     * Fields to display labels definition.
+     *
+     * @return array
+     */
+    protected function getLabels(): array
+    {
+        return [
+            'title' => 'Titre',
+            'content' => 'Contenu',
+            'event' => 'Évènement',
+            'visibility' => 'Visibilité',
+            'created_by' => 'Créé par',
+            'owned_by' => 'Possédé par',
         ];
     }
 

@@ -180,6 +180,33 @@ abstract class Generator
     }
 
     /**
+     * Function to retrieve field label based on the field name and an array of labels
+     *
+     * @param string $field
+     * @param array  $labels Default: empty array.
+     * @return string
+     */
+    protected function getLabel(string $field, array $labels=[])
+    {
+        $label = null;
+
+        switch ($field) {
+            case 'created_at':
+                $label = "Créé le";
+                break;
+            case 'updated_at':
+                $label = "Mis à jour le";
+                break;
+            case 'deleted_at':
+                $label = "Supprimé le";
+                break;
+        }
+
+        $label = key_exists($field, $labels) ? $labels[$field] : $label;
+        return $label;
+    }
+
+    /**
      * Specific definition from the form type.
      *
      * @param mixed $field
@@ -191,9 +218,10 @@ abstract class Generator
      * Allow to add several fields.
      *
      * @param array $fields
+     * @param array $labels Default: empty array.
      * @return Generator
      */
-    public function addFields(array $fields)
+    public function addFields(array $fields, array $labels=[])
     {
         foreach ($fields as $field) {
             if (static::$simplePrint) {
@@ -202,7 +230,7 @@ abstract class Generator
                 }
             }
 
-            $this->generateField($field);
+            $this->generateField($field, $this->getLabel($field, $labels));
         }
 
         return $this;
@@ -212,13 +240,14 @@ abstract class Generator
      * Generate a new field.
      *
      * @param  string $field
+     * @param  string $label
      * @return void
      */
-    protected function generateField(string $field)
+    protected function generateField(string $field, string $label=null)
     {
         $model = $this->model;
 
-        $this->callCustomMethods($this->generated->$field())
+        $this->callCustomMethods($this->generated->$field($label))
             ->{$this->valueMethod}(function ($value) use ($field, $model) {
                 return Generator::adminValue($value, $field, $model);
             });

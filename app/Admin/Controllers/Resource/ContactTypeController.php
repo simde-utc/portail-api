@@ -3,6 +3,7 @@
  * Manage ContactTypes as admin.
  *
  * @author Samy Nastuzzi <samy@nastuzzi.fr>
+ * @author Corentin Mercier <corentin@cmercier.fr>
  *
  * @copyright Copyright (c) 2018, SiMDE-UTC
  * @license GNU GPL-3.0
@@ -16,6 +17,8 @@ class ContactTypeController extends ResourceController
 {
     protected $model = ContactType::class;
 
+    protected $name = "Type de contact";
+
     /**
      * Fields to display definition.
      *
@@ -24,12 +27,22 @@ class ContactTypeController extends ResourceController
     protected function getFields(): array
     {
         return [
-            'id' => 'display',
             'type' => 'display',
             'name' => 'text',
             'pattern' => 'text',
-            'created_at' => 'date',
-            'updated_at' => 'date',
+        ];
+    }
+
+    /**
+     * Fields to display labels definition.
+     *
+     * @return array
+     */
+    protected function getLabels(): array
+    {
+        return [
+            'name' => 'Nom',
+            'pattern' => 'Structure',
         ];
     }
 }

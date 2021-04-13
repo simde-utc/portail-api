@@ -3,6 +3,7 @@
  * Manage Clients as admin.
  *
  * @author Samy Nastuzzi <samy@nastuzzi.fr>
+ * @author Corentin Mercier <corentin@cmercier.fr>
  *
  * @copyright Copyright (c) 2018, SiMDE-UTC
  * @license GNU GPL-3.0
@@ -17,6 +18,8 @@ use App\Models\Asso;
 class ClientController extends ResourceController
 {
     protected $model = Client::class;
+
+    protected $name = "Client OAuth";
 
     /**
      * Fields to display definition.
@@ -40,6 +43,17 @@ class ClientController extends ResourceController
             'created_at' => 'date',
             'updated_at' => 'date'
         ];
+    }
+
+    /**
+     * Fields to display labels definition.
+     *
+     * @return array
+     */
+    protected function getLabels(): array
+    {
+        // Keep fields names as label.
+        return [];
     }
 
     /**

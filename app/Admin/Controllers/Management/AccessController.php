@@ -119,6 +119,8 @@ class AccessController extends Controller
         $grid->addFields([
             'description' => 'textarea',
             'comment' => 'text'
+        ], [
+            "comment" => "Commentaire",
         ], false);
 
         $grid->column('validated_by.lastname', 'Validé par')->display(function () {
@@ -131,6 +133,9 @@ class AccessController extends Controller
             'validated' => 'switch',
             'validated_at' => 'datetime',
             'created_at' => 'datetime',
+        ], [
+            "validated" => "Validé",
+            "validated_at" => "Validé le",
         ]);
 
         $grid->tools(function ($tools) {

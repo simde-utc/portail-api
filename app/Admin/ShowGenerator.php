@@ -50,16 +50,17 @@ class ShowGenerator extends Generator
      * Generate a new field and linked field.
      *
      * @param  string $field
+     * @param  string $label
      * @return void
      */
-    protected function generateField(string $field)
+    protected function generateField(string $field, string $label=null)
     {
         if (method_exists($this->generatedModel, $field)
             && (($relation = $this->generatedModel->$field()) instanceof Relation)) {
             $must = $relation->getModel()->getMustFields();
             $resource = Str::plural($relation->getModel());
 
-            $this->generated->$field($field, function ($value) use ($must, $resource) {
+            $this->generated->$field($label, function ($value) use ($must, $resource) {
                 $value->setResource('/admin/'.$resource);
 
                 foreach ($must as $key) {
@@ -70,7 +71,7 @@ class ShowGenerator extends Generator
                 }
             });
         } else {
-            parent::generateField($field);
+            parent::generateField($field, $label);
         }
     }
 }

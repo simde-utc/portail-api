@@ -17,6 +17,8 @@ class PartnerController extends ResourceController
 {
     protected $model = Partner::class;
 
+    protected $name = "Partenaire";
+
     /**
      * Fields to display definition.
      *
@@ -34,6 +36,22 @@ class PartnerController extends ResourceController
             'image' => 'image',
             'created_at' => 'date',
             'updated_at' => 'date'
+        ];
+    }
+
+    /**
+     * Fields to display labels definition.
+     *
+     * @return array
+     */
+    protected function getLabels(): array
+    {
+        return [
+            'name' => 'Nom',
+            'website' => 'Site web',
+            'address' => 'Adresse',
+            'postal_code' => 'Code Postal',
+            'city' => 'Ville',
         ];
     }
 }

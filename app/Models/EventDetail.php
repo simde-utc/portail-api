@@ -10,6 +10,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use App\Traits\Model\HasKeyValue;
 use App\Models\Event;
 
@@ -33,6 +34,6 @@ class EventDetail extends Model
      */
     public function event()
     {
-        $this->belongsTo(Event::class);
+        return $this->belongsTo(Event::class, 'event_id');
     }
 }

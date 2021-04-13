@@ -3,6 +3,7 @@
  * Display Users as admin.
  *
  * @author Samy Nastuzzi <samy@nastuzzi.fr>
+ * @author Corentin Mercier <corentin@cmercier.fr>
  *
  * @copyright Copyright (c) 2018, SiMDE-UTC
  * @license GNU GPL-3.0
@@ -12,19 +13,18 @@ namespace App\Admin\Controllers\Resource;
 
 use App\Http\Controllers\Controller;
 use App\Traits\Controller\v1\HasUsers;
-use Encore\Admin\Grid\Filter;
 use Encore\Admin\Layout\{
     Content, Column, Row
 };
 use Encore\Admin\{
-    Grid, Show, Form
+    Grid, Show
 };
 use Illuminate\Http\Request;
 use App\Models\{
-    User, AuthCas
+    User,
 };
 use App\Notifications\Admin\{
-    AdminImpersonation, UserImpersonation
+    UserImpersonation
 };
 use App\Notifications\User\UserContributionBde;
 use App\Models\Semester;
@@ -47,6 +47,20 @@ class UserController extends Controller
     ];
 
     /**
+     * Fields to display labels definition.
+     *
+     * @return array
+     */
+    protected function getLabels(): array
+    {
+        return [
+            'firstname' => 'Prénom',
+            'lastname' => 'Nom',
+            'last_login_at' => 'Dernière connexion le',
+        ];
+    }
+
+    /**
      * Give access only if user has the right permission.
      */
     public function __construct()
@@ -65,7 +79,7 @@ class UserController extends Controller
     {
         $grid = new GridGenerator(User::class);
 
-        $grid->addFields($this->fields);
+        $grid->addFields($this->fields, $this->getLabels());
 
         $grid->types()->display(function () {
             $badges = '';

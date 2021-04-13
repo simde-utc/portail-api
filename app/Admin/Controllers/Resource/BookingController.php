@@ -3,6 +3,7 @@
  * Manage Bookings as admin.
  *
  * @author Samy Nastuzzi <samy@nastuzzi.fr>
+ * @author Corentin Mercier <corentin@cmercier.fr>
  *
  * @copyright Copyright (c) 2018, SiMDE-UTC
  * @license GNU GPL-3.0
@@ -17,6 +18,8 @@ use App\Models\{
 class BookingController extends ResourceController
 {
     protected $model = Booking::class;
+
+    protected $name = "Réservation";
 
     /**
      * Fields to display definition.
@@ -36,6 +39,22 @@ class BookingController extends ResourceController
             'validated_by' => 'display',
             'created_at' => 'datetime',
             'updated_at' => 'datetime'
+        ];
+    }
+
+    /**
+     * Fields to display labels definition.
+     *
+     * @return array
+     */
+    protected function getLabels(): array
+    {
+        return [
+            'room' => 'Salle',
+            'event' => 'Évènement',
+            'created_by' => 'Créé par',
+            'owned_by' => 'Possédé par',
+            'validated_by' => 'Validé par',
         ];
     }
 

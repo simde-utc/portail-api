@@ -3,6 +3,7 @@
  * Manage CAS authentifications as admin.
  *
  * @author Samy Nastuzzi <samy@nastuzzi.fr>
+ * @author Corentin Mercier <corentin@cmercier.fr>
  *
  * @copyright Copyright (c) 2018, SiMDE-UTC
  * @license GNU GPL-3.0
@@ -16,6 +17,8 @@ use App\Models\User;
 class AuthCasController extends ResourceController
 {
     protected $model = AuthCas::class;
+
+    protected $name = "Autentification par CAS";
 
     /**
      * Fields to display definition.
@@ -34,6 +37,21 @@ class AuthCasController extends ResourceController
             'last_login_at' => 'display',
             'created_at' => 'datetime',
             'updated_at' => 'datetime'
+        ];
+    }
+
+    /**
+     * Fields to display labels definition.
+     *
+     * @return array
+     */
+    protected function getLabels(): array
+    {
+        return [
+            'user' => "Utilisateur",
+            'is_active' => 'Est actif',
+            'is_confirmed' => 'Est confirmé',
+            'last_login_at' => 'Dernière connexion le',
         ];
     }
 
